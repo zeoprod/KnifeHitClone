@@ -1,7 +1,5 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
-using Utils.Disposables;
 using Zenject;
 
 namespace Gameplay
@@ -12,24 +10,22 @@ namespace Gameplay
 
 		[SerializeField] private TMP_Text _scoreValue;
 
-		private readonly CompositeDisposable _subscribes = new();
-		
 		[Inject]
 		public void Construct(GameSession gameSession)
 		{
 			_gameSession = gameSession;
 
-			_subscribes.Retain(_gameSession.Data.Score.Subscribe(UpdateScore));
+			_gameSession.OnScoreChanged += UpdateScore;
 		}
 
 		private void OnDestroy()
 		{
-			_subscribes.Dispose();
+			_gameSession.OnScoreChanged -= UpdateScore;
 		}
 
-		private void UpdateScore(int newValue, int oldValue)
+		private void UpdateScore()
 		{
-			_scoreValue.text = newValue.ToString();
+			_scoreValue.text = _gameSession.CurrentScore.ToString();
 		}
 	}
 }

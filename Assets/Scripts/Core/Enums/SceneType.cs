@@ -1,12 +1,9 @@
 ﻿namespace Core.Enums
 {
-	public class SceneType
+	public enum SceneType
 	{
-		public enum Names
-		{
-		  Preloader = 0,
-			MainMenu = 1,
-			Game = 2
-		}
+		Bootstrap = 0,
+		Menu      = 1,
+		Game      = 2
 	}
 }

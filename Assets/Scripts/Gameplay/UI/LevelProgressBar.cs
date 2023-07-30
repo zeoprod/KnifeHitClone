@@ -13,7 +13,7 @@ namespace Gameplay.UI
 		[SerializeField] private LevelProgressBarPart       _midPartPrefab;
 		[SerializeField] private LevelProgressBarPart       _rightPartPrefab;
 
-		private List<LevelProgressBarPart> _parts = new();
+		private readonly List<LevelProgressBarPart> _parts = new();
 	
 		public void Initialize(LevelConfig levelConfig)
 		{

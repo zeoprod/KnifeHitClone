@@ -1,29 +1,27 @@
-﻿namespace Gameplay
+﻿using System;
+
+namespace Gameplay
 {
 	public class GameSession
 	{
-		public GameSessionData Data => _data;
+		public event Action OnScoreChanged;
+		
+		private int _currentScore;
 
-		private GameSessionData _data;
-		
-		public GameSession()
-		{
-			ResetState();
-		}
-		
+		public int CurrentScore => _currentScore;
+
 		public void IncreaseScore()
 		{
-			_data.Score.Value += 1;
+			_currentScore++;
+			
+			OnScoreChanged?.Invoke();
 		}
 
 		public void ResetScore()
 		{
-			_data.Score.Value = 0;
-		}
-		
-		private void ResetState()
-		{
-			_data = new GameSessionData();
+			_currentScore = 0;
+			
+			OnScoreChanged?.Invoke();
 		}
 	}
 }

@@ -16,28 +16,28 @@ namespace Installers
 
 		public override void InstallBindings()
 		{
-			InstallLevelConfigsFactory();
-			InstallLogsFactory();
-			InstallKnivesFactory();
-			InstallObstaclesConfig();
+			BindLevelConfigsFactory();
+			BindLogsFactory();
+			BindKnivesFactory();
+			BindObstaclesConfig();
 		}
 
-		private void InstallLevelConfigsFactory()
+		private void BindLevelConfigsFactory()
 		{
 			Container.Bind<LevelConfigsFactory>().AsSingle().WithArguments(_allLevelsConfig);
 		}
 
-		private void InstallLogsFactory()
+		private void BindLogsFactory()
 		{
 			Container.Bind<LogsFactory>().AsSingle().WithArguments(_allLogsConfigs);
 		}
 
-		private void InstallKnivesFactory()
+		private void BindKnivesFactory()
 		{
 			Container.Bind<KnivesFactory>().AsSingle().WithArguments(_allKnivesConfig);
 		}
 
-		private void InstallObstaclesConfig()
+		private void BindObstaclesConfig()
 		{
 			Container.Bind<ObstaclesFactory>().AsSingle().WithArguments(_allObstaclesConfig);
 		}
