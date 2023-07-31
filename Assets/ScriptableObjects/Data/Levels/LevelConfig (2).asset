@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6562d258925a466b8fc8c82e397ec400, type: 3}
-  m_Name: LevelConfig (0)
+  m_Name: LevelConfig (2)
   m_EditorClassIdentifier: 
   _stages:
-  - _neededHitsAmount: 5
+  - _neededHitsAmount: 8
     _logRotationSpeedCurve:
       serializedVersion: 2
       m_Curve:
@@ -48,43 +48,26 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     _logType: 0
-    _obstacles: []
-  - _neededHitsAmount: 8
-    _logRotationSpeedCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 2.4895532
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 3.0002484
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    _logType: 0
     _obstacles:
     - _type: 0
+      _spawnPointOnCircle: 0
+    - _type: 0
+      _spawnPointOnCircle: 0.25
+    - _type: 0
       _spawnPointOnCircle: 0.5
+    - _type: 0
+      _spawnPointOnCircle: 0.75
+    - _type: 0
+      _spawnPointOnCircle: 0.875
+    - _type: 0
+      _spawnPointOnCircle: 0.135
   - _neededHitsAmount: 10
     _logRotationSpeedCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.0026357472
-        value: 2.0068557
+        time: 0.00653518
+        value: 2.100976
         inSlope: 0
         outSlope: 0
         tangentMode: 34
@@ -92,8 +75,17 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1.0026357
-        value: 2.0068557
+        time: 0.007545732
+        value: 2.100976
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1.0065352
+        value: 2.100976
         inSlope: 0
         outSlope: 0
         tangentMode: 34
@@ -106,6 +98,54 @@ MonoBehaviour:
     _logType: 0
     _obstacles:
     - _type: 0
-      _spawnPointOnCircle: 0.75
+      _spawnPointOnCircle: 0
     - _type: 0
-      _spawnPointOnCircle: 0.25
+      _spawnPointOnCircle: 0.5
+    - _type: 0
+      _spawnPointOnCircle: 0.45
+    - _type: 0
+      _spawnPointOnCircle: 0.55
+    - _type: 0
+      _spawnPointOnCircle: 0.05
+    - _type: 0
+      _spawnPointOnCircle: 0.95
+  - _neededHitsAmount: 10
+    _logRotationSpeedCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0.0013484731
+        value: 3.0036325
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.0023590252
+        value: 3.0036325
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1.0013485
+        value: 3.0036325
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    _logType: 0
+    _obstacles:
+    - _type: 0
+      _spawnPointOnCircle: 0
+    - _type: 0
+      _spawnPointOnCircle: 0.5

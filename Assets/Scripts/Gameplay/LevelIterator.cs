@@ -1,6 +1,7 @@
 ﻿using Gameplay.Factories;
 using Gameplay.Repositories.LevelIndexRepository;
 using ScriptableObjects.Classes;
+using UnityEngine;
 using Zenject;
 
 namespace Gameplay
@@ -32,10 +33,8 @@ namespace Gameplay
 
 		public void MoveToNextLevel()
 		{
-			if (_currentLevelIndex < _maxLevelIndex)
-				_currentLevelIndex++;
-			else
-				Reset();
+			if (_currentLevelIndex < _maxLevelIndex - 1) _currentLevelIndex++;
+			else Reset();
 			
 			Save();
 		}

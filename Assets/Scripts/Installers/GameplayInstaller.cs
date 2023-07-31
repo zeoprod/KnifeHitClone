@@ -40,7 +40,7 @@ namespace Installers
 
 		private void BindLevelIterator()
 		{
-			Container.Bind<LevelIterator>().AsSingle();
+			Container.BindInterfacesAndSelfTo<LevelIterator>().AsSingle();
 		}
 
 		private void BindStageGenerator()

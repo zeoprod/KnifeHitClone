@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6562d258925a466b8fc8c82e397ec400, type: 3}
-  m_Name: LevelConfig (0)
+  m_Name: LevelConfig (1)
   m_EditorClassIdentifier: 
   _stages:
   - _neededHitsAmount: 5
@@ -78,7 +78,7 @@ MonoBehaviour:
     _obstacles:
     - _type: 0
       _spawnPointOnCircle: 0.5
-  - _neededHitsAmount: 10
+  - _neededHitsAmount: 12
     _logRotationSpeedCurve:
       serializedVersion: 2
       m_Curve:
@@ -109,3 +109,7 @@ MonoBehaviour:
       _spawnPointOnCircle: 0.75
     - _type: 0
       _spawnPointOnCircle: 0.25
+    - _type: 0
+      _spawnPointOnCircle: 0.5
+    - _type: 0
+      _spawnPointOnCircle: 0

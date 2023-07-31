@@ -123,6 +123,8 @@ namespace Gameplay
 			else
 			{
 				_recordRepository.SaveRecord(_gameSession.CurrentScore);
+				
+				_levelIterator.MoveToNextLevel();
 
 				_gameUI.ShowVictoryWindow();
 			}
@@ -137,7 +139,6 @@ namespace Gameplay
 
 		private void LoadNextLevel()
 		{
-			_currentStage++;
 			PrepareLevel();
 		}
 
