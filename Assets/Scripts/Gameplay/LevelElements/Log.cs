@@ -37,7 +37,6 @@ namespace Gameplay.LevelElements
 
 			_speedCurve = _stageSettings.LogRotationSpeedCurve;
 			_curveLength = _curveLength = _speedCurve.keys[_speedCurve.length - 1].time - _speedCurve.keys[0].time;
-			;
 		}
 
 		public void StartRotation() => _allowRotating = true;

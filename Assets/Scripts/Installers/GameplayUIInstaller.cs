@@ -12,24 +12,20 @@ namespace Installers
 		[SerializeField] private LevelProgressBar         _levelProgressBar;
 		[SerializeField] private KnifeThrowerAttemptsView _knifeThrowerAttemptsView;
 
-		[SerializeField] private GameWindow    _gameWindow;
-		[SerializeField] private VictoryWindow _victoryWindow;
-		[SerializeField] private LoseWindow    _loseWindow;
+		[SerializeField] private GameUI        _gameUI;
 
 		public override void InstallBindings()
 		{
-			BindWindows();
+			BindGameUI();
 
 			BindLevelProgressBar();
 			BindScoreView();
 			BindKnifeThrowerAttemptsView();
 		}
 
-		private void BindWindows()
+		private void BindGameUI()
 		{
-			Container.Bind<GameWindow>().FromInstance(_gameWindow).AsSingle();
-			Container.Bind<VictoryWindow>().FromInstance(_victoryWindow).AsSingle();
-			Container.Bind<LoseWindow>().FromInstance(_loseWindow).AsSingle();
+			Container.Bind<GameUI>().FromInstance(_gameUI).AsSingle();
 		}
 
 		private void BindScoreView()

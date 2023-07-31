@@ -4,10 +4,9 @@ using Core.Enums;
 using Core.Services;
 using Gameplay.LevelElements;
 using Gameplay.Repositories.HighScoreRepository;
-using Gameplay.UI;
 using Gameplay.UI.Windows;
 using ScriptableObjects.Classes;
-using UnityEngine;
+using ScriptableObjects.Classes.Gameplay;
 using Zenject;
 
 namespace Gameplay
@@ -15,16 +14,13 @@ namespace Gameplay
 	public class Game : IInitializable, IDisposable
 	{
 		private readonly SceneLoader       _sceneLoader;
+		private readonly GameConfig        _gameConfig;
 		private readonly IRecordRepository _recordRepository;
 		private readonly GameSession       _gameSession;
 		private readonly LevelIterator     _levelIterator;
 		private readonly StageGenerator    _stageGenerator;
 		private readonly KnifeThrower      _knifeThrower;
-		private readonly LevelProgressBar  _levelProgressBar;
-
-		private readonly GameWindow    _gameWindow;
-		private readonly VictoryWindow _victoryWindow;
-		private readonly LoseWindow    _loseWindow;
+		private readonly GameUI            _gameUI;
 
 		private LevelConfig _currentLevelConfig;
 		private int         _currentStage;
@@ -33,27 +29,23 @@ namespace Gameplay
 
 		public Game(
 			SceneLoader sceneLoader,
+			GameConfig gameConfig,
 			IRecordRepository recordRepository,
 			LevelIterator levelIterator,
 			GameSession gameSession,
-			LevelProgressBar levelProgressBar,
 			StageGenerator stageGenerator,
 			KnifeThrower knifeThrower,
-			GameWindow gameWindow,
-			VictoryWindow victoryWindow,
-			LoseWindow loseWindow)
+			GameUI gameUI)
 		{
 			_sceneLoader = sceneLoader;
+			_gameConfig = gameConfig;
 			_levelIterator = levelIterator;
 			_recordRepository = recordRepository;
 			_gameSession = gameSession;
-			_levelProgressBar = levelProgressBar;
 			_stageGenerator = stageGenerator;
 			_knifeThrower = knifeThrower;
 
-			_gameWindow = gameWindow;
-			_victoryWindow = victoryWindow;
-			_loseWindow = loseWindow;
+			_gameUI = gameUI;
 		}
 
 		public void Initialize()
@@ -65,19 +57,14 @@ namespace Gameplay
 		private void PrepareLevel()
 		{
 			_currentStage = 0;
-			
-			_gameWindow.Show();
-			_victoryWindow.Hide();
-			_loseWindow.Hide();
 
 			_currentLevelConfig = _levelIterator.GetCurrentLevelConfig();
 			var currentStageSettings = _currentLevelConfig.GetStageConfig(_currentStage);
 
-			_levelProgressBar.Initialize(_currentLevelConfig);
-			_levelProgressBar.SetCurrent(_currentStage);
+			_gameUI.StartLevel(_currentLevelConfig);
 
 			_stageGenerator.Generate(_currentLevelConfig.GetStageConfig(_currentStage));
-			
+
 			_knifeThrower.Initialize(currentStageSettings);
 		}
 
@@ -96,11 +83,9 @@ namespace Gameplay
 			_knifeThrower.OnSuccessfulHit += HandleSuccessfulHit;
 			_knifeThrower.OnFailedHit += HandleFailedHitStage;
 
-			_victoryWindow.OnNextButtonClicked += LoadNextLevel;
-			_victoryWindow.OnMenuButtonClicked += LoadMenu;
-
-			_loseWindow.OnRetryButtonClicked += RetryCurrentLevel;
-			_loseWindow.OnMenuButtonClicked += LoadMenu;
+			_gameUI.OnNextButtonClicked += LoadNextLevel;
+			_gameUI.OnMenuButtonClicked += LoadMenu;
+			_gameUI.OnRetryButtonClicked += RetryCurrentLevel;
 		}
 
 		private void Unsubscribe()
@@ -108,18 +93,13 @@ namespace Gameplay
 			_knifeThrower.OnSuccessfulHit -= HandleSuccessfulHit;
 			_knifeThrower.OnFailedHit -= HandleFailedHitStage;
 
-			_victoryWindow.OnNextButtonClicked -= LoadNextLevel;
-			_victoryWindow.OnMenuButtonClicked -= LoadMenu;
-
-			_loseWindow.OnRetryButtonClicked -= RetryCurrentLevel;
-			_loseWindow.OnMenuButtonClicked -= LoadMenu;
+			_gameUI.OnNextButtonClicked -= LoadNextLevel;
+			_gameUI.OnMenuButtonClicked -= LoadMenu;
+			_gameUI.OnRetryButtonClicked -= RetryCurrentLevel;
 		}
-
-
+		
 		private void HandleSuccessfulHit()
 		{
-			_gameSession.IncreaseScore();
-
 			if (_knifeThrower.HitAttemptsAmount == 0) HandleCompletedStage();
 		}
 
@@ -127,16 +107,12 @@ namespace Gameplay
 		{
 			_currentStage++;
 
-			_levelProgressBar.SetCurrent(_currentStage);
+			_gameUI.UpdateCurrentStage(_currentStage);
 
-			Debug.Log("Stage Completed");
+			_stageGenerator.StageComplete();
 
-			_stageGenerator.Log.StopRotation();
-			_stageGenerator.Log.Throw();
+			await Task.Delay(_gameConfig.MillisecondsDelayBetweenStages);
 
-			const int MillisecondsDelayBetweenStages = 500;
-			await Task.Delay(MillisecondsDelayBetweenStages);
-			
 			if (_currentStage < _currentLevelConfig.StagesCount)
 			{
 				var currentStageSettings = _currentLevelConfig.GetStageConfig(_currentStage);
@@ -146,28 +122,17 @@ namespace Gameplay
 			}
 			else
 			{
-				_knifeThrower.OnSuccessfulHit -= HandleSuccessfulHit;
-				_knifeThrower.OnFailedHit -= HandleFailedHitStage;
-
-				Debug.Log($"Level Completed with score: {_gameSession.CurrentScore}");
-
 				_recordRepository.SaveRecord(_gameSession.CurrentScore);
 
-				_gameWindow.Hide();
-				_victoryWindow.Show();
+				_gameUI.ShowVictoryWindow();
 			}
 		}
 
 		private void HandleFailedHitStage()
 		{
-			Debug.Log($"Level Failed with score: {_gameSession.CurrentScore}");
-
 			_recordRepository.SaveRecord(_gameSession.CurrentScore);
 
-			_gameWindow.Hide();
-			_loseWindow.Show();
-
-			_gameSession.ResetScore();
+			_gameUI.ShowLoseWindow();
 		}
 
 		private void LoadNextLevel()

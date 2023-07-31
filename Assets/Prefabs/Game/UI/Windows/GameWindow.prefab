@@ -67,6 +67,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _showDelay: 0
   _fadeDuration: 0
+  _levelProgressBar: {fileID: 2008232387446291978}
 --- !u!1001 &681176593047537991
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -416,6 +417,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50533579e6290064ba4ab5fc1938f6ff, type: 3}
+--- !u!114 &2008232387446291978 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3723431170801993999, guid: 50533579e6290064ba4ab5fc1938f6ff, type: 3}
+  m_PrefabInstance: {fileID: 2914642990392588037}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22ba637fe1014cd3a98738d3fda67d02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8630993182916716768 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6896584196030930917, guid: 50533579e6290064ba4ab5fc1938f6ff, type: 3}

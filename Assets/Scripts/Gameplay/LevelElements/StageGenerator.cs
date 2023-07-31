@@ -8,16 +8,14 @@ namespace Gameplay.LevelElements
 {
 	public class StageGenerator : MonoBehaviour
 	{
-		[SerializeField] private Transform  _logSpawnPoint;
+		[SerializeField] private Transform _logSpawnPoint;
 
-		private          Log              _log;
-		private readonly List<Obstacle>   _obstacles  = new();
+		private          Log            _log;
+		private readonly List<Obstacle> _obstacles = new();
 
 		private StageSettings    _stageSettings;
 		private ObstaclesFactory _obstaclesFactory;
 		private LogsFactory      _logsFactory;
-
-		public Log Log => _log;
 
 		[Inject]
 		private void Construct(LogsFactory logsFactory, ObstaclesFactory obstaclesFactory)
@@ -25,7 +23,7 @@ namespace Gameplay.LevelElements
 			_logsFactory = logsFactory;
 			_obstaclesFactory = obstaclesFactory;
 		}
-		
+
 		public void Generate(StageSettings stageSettings)
 		{
 			_stageSettings = stageSettings;
@@ -37,12 +35,19 @@ namespace Gameplay.LevelElements
 			_log.StartRotation();
 		}
 
+		public void StageComplete()
+		{
+			_log.StopRotation();
+			_log.Throw();
+		}
+
 		private void ClearOldStage()
 		{
 			for (int i = 0; i < _obstacles.Count; i++)
 			{
 				_obstacles[i].Release();
 			}
+
 			_obstacles.Clear();
 
 			if (_log != null)
@@ -56,7 +61,7 @@ namespace Gameplay.LevelElements
 		{
 			_log = _logsFactory.Create(stageSettings.LogType, _logSpawnPoint.position);
 
-			var logRadius     = Log.Radius;
+			var logRadius     = _log.Radius;
 			var obstacleCount = stageSettings.Obstacles.Length;
 
 			for (int i = 0; i < obstacleCount; i++)
@@ -67,7 +72,7 @@ namespace Gameplay.LevelElements
 
 				_obstaclesFactory.Create(stageSettings.Obstacles[i].Type, spawnPosition, Quaternion.identity)
 												 .With(o => _obstacles.Add(o))
-												 .With(o => o.transform.SetParent(Log.Transform))
+												 .With(o => o.transform.SetParent(_log.Transform))
 												 .With(o => o.transform.Rotate(Vector3.forward * spawnAngleRadians * Mathf.Rad2Deg));
 			}
 		}

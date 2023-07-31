@@ -1,26 +1,48 @@
 ﻿using System;
+using Gameplay.LevelElements;
+using Gameplay.UI.Windows;
+using Zenject;
 
 namespace Gameplay
 {
-	public class GameSession
+	public class GameSession : IInitializable, IDisposable
 	{
 		public event Action OnScoreChanged;
-		
-		private int _currentScore;
 
-		public int CurrentScore => _currentScore;
+		private readonly KnifeThrower _knifeThrower;
+		private readonly GameUI       _gameUI;
 
-		public void IncreaseScore()
+		public int CurrentScore { get; private set; }
+
+		public GameSession(KnifeThrower knifeThrower, GameUI gameUI)
 		{
-			_currentScore++;
-			
+			_knifeThrower = knifeThrower;
+			_gameUI = gameUI;
+		}
+
+		public void Initialize()
+		{
+			_knifeThrower.OnSuccessfulHit += IncreaseScore;
+			_gameUI.OnRetryButtonClicked += ResetScore;
+		}
+
+		public void Dispose()
+		{
+			_knifeThrower.OnSuccessfulHit -= IncreaseScore;
+			_gameUI.OnRetryButtonClicked -= ResetScore;
+		}
+		
+		private void IncreaseScore()
+		{
+			CurrentScore++;
+
 			OnScoreChanged?.Invoke();
 		}
 
-		public void ResetScore()
+		private void ResetScore()
 		{
-			_currentScore = 0;
-			
+			CurrentScore = 0;
+
 			OnScoreChanged?.Invoke();
 		}
 	}

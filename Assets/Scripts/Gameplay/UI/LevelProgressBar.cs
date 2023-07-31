@@ -19,6 +19,7 @@ namespace Gameplay.UI
 		{
 			DestroyOldParts();
 			CreateParts(levelConfig);
+			SetCurrent(0);
 		}
 
 		private void CreateParts(LevelConfig levelConfig)
