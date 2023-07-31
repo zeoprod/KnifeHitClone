@@ -18,7 +18,7 @@ namespace Gameplay.LevelElements
 		private LogsFactory      _logsFactory;
 
 		[Inject]
-		private void Construct(LogsFactory logsFactory, ObstaclesFactory obstaclesFactory)
+		public void Construct(LogsFactory logsFactory, ObstaclesFactory obstaclesFactory)
 		{
 			_logsFactory = logsFactory;
 			_obstaclesFactory = obstaclesFactory;
